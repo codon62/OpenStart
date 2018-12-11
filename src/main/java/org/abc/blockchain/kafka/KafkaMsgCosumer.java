@@ -1,4 +1,4 @@
-package org.abc.kafka;
+package org.abc.blockchain.kafka;
 
 import java.io.IOException;
 import java.io.InputStream;
