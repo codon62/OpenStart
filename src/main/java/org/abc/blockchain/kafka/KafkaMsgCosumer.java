@@ -1,22 +1,22 @@
 package org.abc.blockchain.kafka;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Properties;
-import java.util.Random;
+//import java.io.IOException;
+//import java.io.InputStream;
+//import java.util.ArrayList;
+//import java.util.Arrays;
+//import java.util.List;
+//import java.util.Properties;
+//import java.util.Random;
 
-import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.apache.kafka.clients.consumer.ConsumerRecords;
-import org.apache.kafka.clients.consumer.KafkaConsumer;
+//import org.apache.kafka.clients.consumer.ConsumerRecord;
+//import org.apache.kafka.clients.consumer.ConsumerRecords;
+//import org.apache.kafka.clients.consumer.KafkaConsumer;
 
-import com.google.common.io.Resources;
+//import com.google.common.io.Resources;
 
 public class KafkaMsgCosumer
 {
-	private ArrayList<KafkaMsgListener> msgListeners = new ArrayList<KafkaMsgListener>();
+/*	private ArrayList<KafkaMsgListener> msgListeners = new ArrayList<KafkaMsgListener>();
 	private KafkaConsumer<String, String> consumer;
 	private String topic = "test";
 	
@@ -116,5 +116,5 @@ public class KafkaMsgCosumer
 		}
 	}
 	
-
+*/
 }

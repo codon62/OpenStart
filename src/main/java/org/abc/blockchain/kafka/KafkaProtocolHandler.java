@@ -1,23 +1,23 @@
 package org.abc.blockchain.kafka;
 
-import static kr.ac.jbnu.ssel.blockchain.BCConstants.NET_DELIM;
+//import static kr.ac.jbnu.ssel.blockchain.BCConstants.NET_DELIM;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+//import java.util.ArrayList;
+//import java.util.Arrays;
 
-import kr.ac.jbnu.ssel.blockchain.BCConstants;
-import kr.ac.jbnu.ssel.blockchain.BlockChainEnv;
-import kr.ac.jbnu.ssel.blockchain.block.Block;
-import kr.ac.jbnu.ssel.blockchain.net.IBCNetProtocol;
-import kr.ac.jbnu.ssel.blockchain.net.NetworkGateway;
-import kr.ac.jbnu.ssel.blockchain.util.JSonHelper;
+//import kr.ac.jbnu.ssel.blockchain.BCConstants;
+//import kr.ac.jbnu.ssel.blockchain.BlockChainEnv;
+//import kr.ac.jbnu.ssel.blockchain.block.Block;
+//import kr.ac.jbnu.ssel.blockchain.net.IBCNetProtocol;
+//import kr.ac.jbnu.ssel.blockchain.net.NetworkGateway;
+//import kr.ac.jbnu.ssel.blockchain.util.JSonHelper;
 
-import static kr.ac.jbnu.ssel.blockchain.BCConstants.PRESCRIPT_BLOCK;
-import static kr.ac.jbnu.ssel.blockchain.BCConstants.PRESCRIPT_TX;
+//import static kr.ac.jbnu.ssel.blockchain.BCConstants.PRESCRIPT_BLOCK;
+//import static kr.ac.jbnu.ssel.blockchain.BCConstants.PRESCRIPT_TX;
 
-public class KafkaProtocolHandler implements IBCNetProtocol, KafkaMsgListener
+public class KafkaProtocolHandler //implements IBCNetProtocol, KafkaMsgListener
 {
-	private BCConstants.NET_TOPIC blockTopic = BlockChainEnv.getBlockChainEnv().getBlockTopic(); 
+/*	private BCConstants.NET_TOPIC blockTopic = BlockChainEnv.getBlockChainEnv().getBlockTopic(); 
 	private BCConstants.NET_TOPIC txTopic = BlockChainEnv.getBlockChainEnv().getTxTopic(); 
 	private BCConstants.NET_TOPIC blockNetSpv 	= BlockChainEnv.getBlockChainEnv().getBlockTopic(); 
 	
@@ -90,6 +90,6 @@ public class KafkaProtocolHandler implements IBCNetProtocol, KafkaMsgListener
 	}
 	
 	
-
+*/
 
 }
