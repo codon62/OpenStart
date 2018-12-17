@@ -3,19 +3,22 @@ package org.abc.blockchain;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.apache.log4j.Logger;
+import org.apache.log4j.BasicConfigurator;
 import java.util.Properties;
 
 /**
  * Hello world!
  *
  */
-public class App 
-{
-    private Properties properties;
+public class App {
+    static Logger logger = Logger.getLogger(App.class);
 
-    public App() {
-        properties = new Properties();
-    }
+    private Properties properties = new Properties();
+
+//    public App() {
+//        properties = new Properties();
+//    }
 
     public Properties getProperties() {
         return properties;
@@ -28,7 +31,7 @@ public class App
      * @throws IOException
      */
     public void loadProp(String path) throws IOException {
-
+        logger.debug("load property file: " + path);
         InputStream inputStream = getClass().getResourceAsStream(path);
         properties.load(inputStream);
         inputStream.close();
@@ -40,55 +43,55 @@ public class App
      * @return
      * @throws IOException
      */
-    public static Properties loadPropForStatic(String path) throws IOException {
-        Properties properties = new Properties();
-        InputStream inputStream = App.class.getClassLoader().getResourceAsStream(path);
-        properties.load(inputStream);
-        inputStream.close();
-        return properties;
-    }
+    // public static Properties loadPropForStatic(String path) throws IOException {
+    //     Properties properties = new Properties();
+    //     InputStream inputStream = App.class.getClassLoader().getResourceAsStream(path);
+    //     properties.load(inputStream);
+    //     inputStream.close();
+    //     return properties;
+    // }
 
-    public static Object returnNull(Object key) {
-        System.out.println(key + " value is null.");
-        return null;
-    }
+    // public static Object returnNull(Object key) {
+    //     System.out.println(key + " value is null.");
+    //     return null;
+    // }
 
 
     public static void main(String[] args) throws IOException {
-        App propertiesDemo = new App();
+        BasicConfigurator.configure();
+        App myApp = new App();
 
-        // 프로퍼티 파일을 읽어들이고 해당 값을 출력해봅니다.
-        propertiesDemo.loadProp("/application.properties");
-        Properties properties = propertiesDemo.getProperties();
+        myApp.loadProp("/application.properties");
+        Properties properties = myApp.getProperties();
         properties.list(System.out);
 
         // 아래 코드는 새로운 프로퍼티 파일에 같은 키를 준 경우 오버라이드 하는 것을 확인합니다.
-        Properties staticProp = App.loadPropForStatic("application-prod.properties");
-        properties.putAll(staticProp);
-        properties = propertiesDemo.getProperties();
-        properties.list(System.out);
+        // Properties staticProp = App.loadPropForStatic("/application-prod.properties");
+        // properties.putAll(staticProp);
+        // properties = propertiesDemo.getProperties();
+        // properties.list(System.out);
 
         // 아래 코드는 프로퍼티간의 결합을 확인합니다.
-        Properties dummy = new Properties();
-        dummy.put("demo.type", "dummy"); // 기존 키를 오버라이드 합니다.
-        dummy.put("demo.temp", "temp"); // 새로운 키를 추가합니다.
-        properties.putAll(dummy); // 기존 프로퍼티에 더미 프로퍼티를 결합합니다.
-        properties.list(System.out);
+        // Properties dummy = new Properties();
+        // dummy.put("demo.type", "dummy"); // 기존 키를 오버라이드 합니다.
+        // dummy.put("demo.temp", "temp"); // 새로운 키를 추가합니다.
+        // properties.putAll(dummy); // 기존 프로퍼티에 더미 프로퍼티를 결합합니다.
+        // properties.list(System.out);
 
         // 아래 코드는 개별 키를 주어 값을 반환받습니다.
-        Object type = properties.get("demo.type");
+        // Object type = properties.get("demo.type");
 
         // 아래코드는 프로퍼티를 키들을 순회하는 구문입니다.
         // .stringPropertyNames 대신 .keySet 을 사용할수도 있습니다.
-        for (String key : properties.stringPropertyNames()) {
-            Object value = properties.getProperty(key);
-        }
+        // for (String key : properties.stringPropertyNames()) {
+        //     Object value = properties.getProperty(key);
+        // }
 
         // 해당 키가 있는지 여부를 판별합니다.
-        properties.containsKey("demo.type");
+        // properties.containsKey("demo.type");
 
         // 해당 값이 있는지 여부를 판별합니다.
-        properties.containsValue("dummy");
+        // properties.containsValue("dummy");
 
         // 보너스 코드
         // 키값을 주고 해당 값이 있으면 해당 값을 반환하지만
