@@ -1,103 +1,46 @@
 package org.abc.blockchain;
 
 import java.io.IOException;
-import java.io.InputStream;
+//import java.io.InputStream;
 
 import org.apache.log4j.Logger;
+import org.abc.blockchain.prop.Prop;
 import org.apache.log4j.BasicConfigurator;
 import java.util.Properties;
 
-/**
- * Hello world!
- *
- */
 public class App {
     static Logger logger = Logger.getLogger(App.class);
 
-    private Properties properties = new Properties();
-
-//    public App() {
-//        properties = new Properties();
-//    }
-
-    public Properties getProperties() {
-        return properties;
-    }
-
-    /**
-     * 이 메소드는 프로퍼티 파일을 스트림으로 읽어 들여 멤버 변수의 프로퍼티에 적재합니다.
-     *
-     * @param path
-     * @throws IOException
-     */
-    public void loadProp(String path) throws IOException {
-        logger.debug("load property file: " + path);
-        InputStream inputStream = getClass().getResourceAsStream(path);
-        properties.load(inputStream);
-        inputStream.close();
-    }
-
-    /**
-     * 이 메소드는 static으로 선언해서 프로퍼티 파일을 읽는 것을 보여줍니다.
-     * @param path
-     * @return
-     * @throws IOException
-     */
-    // public static Properties loadPropForStatic(String path) throws IOException {
-    //     Properties properties = new Properties();
-    //     InputStream inputStream = App.class.getClassLoader().getResourceAsStream(path);
-    //     properties.load(inputStream);
-    //     inputStream.close();
-    //     return properties;
-    // }
-
-    // public static Object returnNull(Object key) {
-    //     System.out.println(key + " value is null.");
-    //     return null;
-    // }
-
-
     public static void main(String[] args) throws IOException {
         BasicConfigurator.configure();
-        App myApp = new App();
+        Prop myApp = new Prop();
 
-        myApp.loadProp("/application.properties");
+        myApp.loadProperties("/application.properties");
         Properties properties = myApp.getProperties();
         properties.list(System.out);
 
-        // 아래 코드는 새로운 프로퍼티 파일에 같은 키를 준 경우 오버라이드 하는 것을 확인합니다.
-        // Properties staticProp = App.loadPropForStatic("/application-prod.properties");
-        // properties.putAll(staticProp);
-        // properties = propertiesDemo.getProperties();
-        // properties.list(System.out);
+        myApp.loadProperties("/additional.properties");
+        Properties moreProperties = myApp.getProperties();
+        properties.putAll(moreProperties);
+        properties.list(System.out);
 
-        // 아래 코드는 프로퍼티간의 결합을 확인합니다.
-        // Properties dummy = new Properties();
-        // dummy.put("demo.type", "dummy"); // 기존 키를 오버라이드 합니다.
-        // dummy.put("demo.temp", "temp"); // 새로운 키를 추가합니다.
-        // properties.putAll(dummy); // 기존 프로퍼티에 더미 프로퍼티를 결합합니다.
-        // properties.list(System.out);
+        Properties dummy = new Properties();
+        dummy.put("demo.type", "newType");
+        dummy.put("demo.temp", "dummy");
+        properties.putAll(dummy);
+        properties.list(System.out);
 
-        // 아래 코드는 개별 키를 주어 값을 반환받습니다.
-        // Object type = properties.get("demo.type");
+        Object type = properties.get("demo.type"); // using Object
+        System.out.println(type);
+        for (String key : properties.stringPropertyNames()) { // .stringPropertyNames = .keySet 
+            String value = properties.getProperty(key);
+            System.out.println(value);
+        }
 
-        // 아래코드는 프로퍼티를 키들을 순회하는 구문입니다.
-        // .stringPropertyNames 대신 .keySet 을 사용할수도 있습니다.
-        // for (String key : properties.stringPropertyNames()) {
-        //     Object value = properties.getProperty(key);
-        // }
+        if(properties.containsKey("demo.type")) System.out.println("Key Ok");
+        else System.out.println("There is no such a key - demo.type");
 
-        // 해당 키가 있는지 여부를 판별합니다.
-        // properties.containsKey("demo.type");
-
-        // 해당 값이 있는지 여부를 판별합니다.
-        // properties.containsValue("dummy");
-
-        // 보너스 코드
-        // 키값을 주고 해당 값이 있으면 해당 값을 반환하지만
-        // 해당 값이 없으면 null을 반환합니다.
-//        Object result = properties.computeIfAbsent("undefined", value -> returnNull(value));
-//        System.out.println("result value is " + result);
+        if(properties.containsValue("dummy")) System.out.println("Value Ok");
+        else System.out.println("There is no such a key - demo.type");
     }
-
 }
