@@ -1,60 +1,65 @@
 package org.abc.blockchain.kafka;
 
-//import java.io.IOException;
-//import java.io.InputStream;
-//import java.util.ArrayList;
-//import java.util.Arrays;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
 //import java.util.List;
-//import java.util.Properties;
+import java.util.Properties;
 //import java.util.Random;
 
-//import org.apache.kafka.clients.consumer.ConsumerRecord;
-//import org.apache.kafka.clients.consumer.ConsumerRecords;
-//import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.clients.consumer.ConsumerRecords;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 
 //import com.google.common.io.Resources;
 import org.apache.log4j.Logger;
 //import org.apache.log4j.BasicConfigurator;
 
-import java.io.IOException;
-import java.io.InputStream;
-
-import java.util.Properties;
-
 public class Consumer {
     static Logger logger = Logger.getLogger(Consumer.class);
 
-    private Properties properties = new Properties();
-
-	public void loadProperties(String path) throws IOException {
-        logger.debug("load property file: " + path);
-        InputStream inputStream = getClass().getResourceAsStream(path);
-        properties.load(inputStream);
-		inputStream.close();
-		properties.list(System.out);
-    }
-
-/*	private ArrayList<KafkaMsgListener> msgListeners = new ArrayList<KafkaMsgListener>();
+	private Properties properties = new Properties();
+	private ArrayList<KafkaMsgListener> msgListeners = new ArrayList<KafkaMsgListener>();
 	private KafkaConsumer<String, String> consumer;
 	private String topic = "test";
-	
-	public KafkaMsgCosumer()
-	{
-		try
-		{
-			InputStream is = Resources.getResource("kafka_consumer.props").openStream();
-			Properties properties = new Properties();
-			properties.load(is);
-//			if (properties.getProperty("group.id") == null)
-//			{
-				properties.setProperty("group.id", "group-" + new Random().nextInt(100000));
-//			}
-			consumer = new KafkaConsumer<>(properties);
-		} catch (IOException e)
-		{
+
+	public Consumer(String topic) {
+		loadProperties("/kafka.properties");
+		properties.list(System.out);
+		consumer = new KafkaConsumer<String, String>(properties);
+		this.topic = topic;
+        consumer.subscribe(Arrays.asList(topic));
+	}
+
+	public void loadProperties(String path) {
+        logger.debug("load property file: " + path);
+		try {
+			InputStream inputStream = getClass().getResourceAsStream(path);
+			// InputStream inputStream = Resources.getResource(path).openStream();
+        	properties.load(inputStream);
+			inputStream.close();
+		} catch (IOException e) {
+			logger.debug("fail to load property file for ");
 			e.printStackTrace();
 		}
 	}
+
+	public void busyWaiting() { // Don't use this method, just getting concept
+        while (true) {
+            ConsumerRecords<String, String> records = consumer.poll(500);
+            for (ConsumerRecord<String, String> record : records) {
+                String s = record.topic();
+                if (topic.equals(s)) {
+                    System.out.println(record.value());
+                } else {
+                    throw new IllegalStateException("get message on topic " + record.topic());
+                }
+			}
+		}
+	}
+
+/*	
 	
 	
 	public void subscribeTopics(List<String> topics)
