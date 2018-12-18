@@ -13,9 +13,27 @@ package org.abc.blockchain.kafka;
 //import org.apache.kafka.clients.consumer.KafkaConsumer;
 
 //import com.google.common.io.Resources;
+import org.apache.log4j.Logger;
+//import org.apache.log4j.BasicConfigurator;
 
-public class KafkaMsgCosumer
-{
+import java.io.IOException;
+import java.io.InputStream;
+
+import java.util.Properties;
+
+public class Consumer {
+    static Logger logger = Logger.getLogger(Consumer.class);
+
+    private Properties properties = new Properties();
+
+	public void loadProperties(String path) throws IOException {
+        logger.debug("load property file: " + path);
+        InputStream inputStream = getClass().getResourceAsStream(path);
+        properties.load(inputStream);
+		inputStream.close();
+		properties.list(System.out);
+    }
+
 /*	private ArrayList<KafkaMsgListener> msgListeners = new ArrayList<KafkaMsgListener>();
 	private KafkaConsumer<String, String> consumer;
 	private String topic = "test";
